@@ -1,88 +1,80 @@
 package model;
 
-import enums.Priority;
-
 import java.time.LocalDateTime;
 
-public class Task{
-    public int taskID;
-    private static int taskNextID = 1; //usado para o auto incremento do ID sempre o primeiro objeto tera id=1
-    public String taskName;
-    public String taskDescription;
-    public Priority taskPriority;
-    public boolean taskStatus; //determina se a tarefa ja foi concluida (true-SIM ou false-NAO)
-    public LocalDateTime creationDate;
+public class Task {
+    private int taskId;
+    private String taskName;
+    private String taskDescription;
+    private TaskPriority  taskPriority;
+    private boolean taskCompleted;
+    private LocalDateTime taskCreationDate;
 
-    //Task Constructor
-    public Task(String p_taskName,String p_taskDescription,Priority p_taskPriority){
-        this.taskID = taskNextID++;
-        this.taskName = p_taskName;
-        this.taskDescription = p_taskDescription;
-        this.taskPriority = p_taskPriority;
-        this.taskStatus = false; //a tarefa sempre que for criada tem o estado de nao concluido
-        this.creationDate = LocalDateTime.now();
+    /**
+     * Priority levels for tasks
+     */
+    public enum TaskPriority  { HIGH, MEDIUM, LOW }
+    private static  int taskNextId = 1;
+
+    /**
+     * Constructs a fully specified Task with all attributes.
+     * @param name The name/title of the task
+     * @param description Detailed description of the task
+     * @param priority Priority level (HIGH, MEDIUM, LOW)
+     * @param completed Completion status
+     */
+    public Task(String name, String description, TaskPriority priority, boolean completed) {
+        this.taskId = taskNextId++;
+        this.taskName = name;
+        this.taskDescription = description;
+        this.taskPriority = priority;
+        this.taskCompleted = completed;
+        this.taskCreationDate = LocalDateTime.now();
     }
 
-    //Methods
+    /**
+     * Constructs a Task without a description (defaults to empty string).
+     * @param name The name/title of the task
+     * @param priority Priority level (HIGH, MEDIUM, LOW)
+     * @param completed Completion status
+     */
+    public Task(String name, TaskPriority priority, boolean completed) {
+        this.taskId = taskNextId++;
+        this.taskName = name;
+        this.taskDescription = "";
+        this.taskPriority = priority;
+        this.taskCompleted = completed;
+        this.taskCreationDate = LocalDateTime.now();
+    }
+
     //Getters
-    public int getTaskID(){
-        return taskID;
-    }
-
-    public String getTaskName(){
-        return taskName;
-    }
-
-    public String getTaskDescription(){
-        return taskDescription;
-    }
-
-    public Priority getTaskPriority(){
-        return taskPriority;
-    }
-
-    public boolean getTaskStatus(){
-        return taskStatus;
-    }
-
-    public LocalDateTime getCreationDate(){
-        return creationDate;
-    }
+    public int getTaskId() { return taskId; }
+    public String getTaskName() { return taskName; }
+    public String getTaskDescription() { return taskDescription; }
+    public TaskPriority getTaskPriority() { return taskPriority; }
+    public boolean isTaskCompleted() { return taskCompleted; }
+    public LocalDateTime getTaskCreationDate() { return taskCreationDate; }
 
     //Setters
-    public void setTaskName(String p_taskName){
-        this.taskName = p_taskName;
-    }
+    public void setTaskId(int taskId) { this.taskId = taskId; }
+    public void setTaskName(String taskName) { this.taskName = taskName; }
+    public void setTaskDescription(String taskDescription) { this.taskDescription = taskDescription; }
+    public void setTaskPriority(TaskPriority taskPriority) { this.taskPriority = taskPriority; }
+    public void setTaskCompleted(boolean taskCompleted) { this.taskCompleted = taskCompleted; }
+    public void setTaskCreationDate(LocalDateTime taskCreationDate) { this.taskCreationDate = taskCreationDate; }
 
-    public void setTaskDescription(String p_taskDescription){
-        this.taskDescription = p_taskDescription;
-    }
+    //Methods
+    public  String showTaskInfo(){
+        StringBuilder taskInfo = new StringBuilder();
+        String statusMessage = taskCompleted ? "Completed" : "In progress";
 
-    public void setTaskPriority(Priority p_taskPriority){
-        this.taskPriority = p_taskPriority;
-    }
+        taskInfo.append("- Task ID: ").append(taskId).append("\n");
+        taskInfo.append("- Task Name: ").append(taskName).append("\n");
+        taskInfo.append("- Description: ").append(taskDescription).append("\n");
+        taskInfo.append("- Priority: ").append(taskPriority).append("\n");
+        taskInfo.append("- Status: ").append(taskCompleted).append("\n");
+        taskInfo.append("- Creation Date: ").append(taskCreationDate).append("\n");
 
-    public void setTaskStatus(boolean p_taskStatus){
-        this.taskStatus = p_taskStatus;
-    }
-
-    public String showTaskInfo(){
-        StringBuilder string = new StringBuilder();
-        String msg;
-
-        if(taskStatus == true){
-            msg = "Concluida!";
-        }else{
-            msg = "Em andamento!";
-        }
-
-        string.append("-Nome da Tarefa: " +getTaskName() +"\n");
-        string.append("-Descricao da Tarefa: " +getTaskDescription() +"\n");
-        string.append("-Estado da Tarefa: " +msg +"\n");
-        string.append("-ID da Tarefa: " +getTaskID() +"\n");
-        string.append("-Prioridade da Tarefa: " +getTaskPriority().getDescription() +"\n");
-        string.append("-Data/Hora de Criacao da Tarefa: " +getCreationDate() +"\n");
-
-        return string.toString();
+        return taskInfo.toString();
     }
 }
