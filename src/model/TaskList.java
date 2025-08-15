@@ -1,4 +1,5 @@
 package model;
+
 import java.time.*;
 import java.util.*;
 
@@ -86,8 +87,8 @@ public class TaskList{
 
     public void setTaskAsConcluded(int id){ //para marcar a tarefa como concluida e preciso procurar ela na lista de tarefas
         for(Task task : taskList){
-            if(task.getTaskID() == id){
-                task.setTaskStatus(true);
+            if(task.getTaskId() == id){
+                task.setTaskCompleted(true);
             }else{
                 System.out.println("A tarefa nao existe para marcar sua conclusao!");
             }
@@ -96,7 +97,7 @@ public class TaskList{
 
     public void searchTaskByID(int id){
         for(Task task : taskList){
-            if(task.getTaskID() == id){
+            if(task.getTaskId() == id){
                 System.out.println(task.showTaskInfo() +"\n");
             }else{
                 System.out.println("A tarefa nao foi encontrada!");
